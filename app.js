@@ -1,28 +1,22 @@
 const express = require("express");
 const app = express();
-const path = require("path");
 
-app.use(express.static("./public"));
+const people = require("./routes/people");
+const login = require("./routes/auth");
 
-//app.get
-app.get("/", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./navbar-app/index.html"));
-});
+//static asset
+app.use(express.static("./methods-public"));
 
-app.all("*", (req, res) => {
-  res.status(404).send("resource not found");
-});
+//parsem form data
+app.use(express.urlencoded({ extended: false }));
+
+//parse json
+app.use(express.json());
+
+app.use("/api/people", people);
+
+app.use("/login", login);
 
 app.listen(5000, () => {
-  console.log("server is listening");
+  console.log("listening on server");
 });
-
-//app.post
-
-//app.put
-
-//app.delete
-
-//app.all
-
-//app.use
